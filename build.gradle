@@ -58,6 +58,8 @@ configure(allprojects) {
 
 configure(subprojects) { subproject ->
     apply from: "${rootProject.projectDir}/publish-maven.gradle"
+    tasks.withType(Javadoc).all { enabled = false }
+    tasks.withType(Test).all { enabled = false }
 
     jar {
         manifest.attributes['Implementation-Title'] = subproject.name
@@ -151,6 +153,9 @@ project('spring-social-security') {
 
 configure(rootProject) {
     description = 'Spring Social'
+
+    tasks.withType(Javadoc).all { enabled = false }
+    tasks.withType(Test).all { enabled = false }
 
     apply plugin: 'docbook-reference'
 

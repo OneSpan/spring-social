@@ -23,6 +23,7 @@ import org.apache.http.HttpHost;
 import org.apache.http.client.methods.HttpUriRequest;
 import org.apache.http.conn.params.ConnRoutePNames;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.impl.conn.PoolingClientConnectionManager;
 import org.apache.http.params.HttpProtocolParams;
 import org.springframework.http.client.BufferingClientHttpRequestFactory;
 import org.springframework.http.client.ClientHttpRequestFactory;
@@ -77,7 +78,12 @@ public class ClientHttpRequestFactorySelector {
 					HttpProtocolParams.setUseExpectContinue(request.getParams(), false);				}
 			};
 			if (proxyHost != null) {
-				DefaultHttpClient httpClient = new DefaultHttpClient();
+				PoolingClientConnectionManager connMgr = new PoolingClientConnectionManager();
+
+				connMgr.setDefaultMaxPerRoute(10);
+
+				DefaultHttpClient httpClient = new DefaultHttpClient(connMgr);
+
 				HttpHost proxy = new HttpHost(proxyHost, proxyPort);
 				httpClient.getParams().setParameter(ConnRoutePNames.DEFAULT_PROXY, proxy);
 				requestFactory.setHttpClient(httpClient);
