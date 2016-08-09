@@ -1,5 +1,6 @@
 buildscript {
     repositories {
+        mavenLocal()
         maven { url 'http://repo.springsource.org/plugins-release' }
     }
     dependencies {
@@ -11,6 +12,7 @@ configure(allprojects) {
     apply plugin: 'java'
     apply plugin: 'eclipse'
     apply plugin: 'idea'
+    apply plugin: 'maven'
 
     group = 'org.springframework.social'
 
